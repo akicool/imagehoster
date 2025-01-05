@@ -3,11 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import {
-  FileQuestion,
-  InfoIcon,
-  LucideMessageCircleQuestion,
-} from "lucide-react";
+import { InfoIcon } from "lucide-react";
 import clsx from "clsx";
 
 export function ImageUploader() {

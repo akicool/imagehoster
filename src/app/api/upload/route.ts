@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
     .from("images")
     .getPublicUrl(filename);
 
+  // eslint-disable-next-line
   const { data: metaData, error: metaError } = await supabase
     .from("image_metadata")
     .insert({
