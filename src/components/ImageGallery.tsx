@@ -27,32 +27,47 @@ export async function ImageGallery({ page }: { page: number }) {
   const { images, totalPages } = await getImages(page);
 
   return (
-    <div className="space-y-6 py-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {images.map((image) => {
-          const { data } = supabase.storage
-            .from("images")
-            .getPublicUrl(image.filename);
+    <>
+      {images.length ? (
+        <div>
+          <h2 className="text-2xl font-semibold">Галерея изображений</h2>
+          <div className="space-y-6 py-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {images.map((image) => {
+                const { data } = supabase.storage
+                  .from("images")
+                  .getPublicUrl(image.filename);
 
-          return (
-            <Link href={`/image/${image.id}`} key={image.id} className="block">
-              <div className="relative aspect-square">
-                <Image
-                  src={data.publicUrl}
-                  alt={image.filename}
-                  fill
-                  className="object-cover rounded-lg"
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                  {new Date(image.uploaded_at).toLocaleDateString()}
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+                return (
+                  <Link
+                    href={`/image/${image.unique_id}`}
+                    key={image.unique_id || image.id}
+                    className="block"
+                  >
+                    <div className="relative aspect-square">
+                      <Image
+                        src={data.publicUrl}
+                        alt={image.filename}
+                        fill
+                        className="object-cover rounded-lg"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
+                        {new Date(image.uploaded_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
 
-      <Pagination currentPage={page} totalPages={totalPages} />
-    </div>
+            <Pagination currentPage={page} totalPages={totalPages} />
+          </div>
+        </div>
+      ) : (
+        <div className=" w-full h-full flex items-center justify-center font-bold">
+          Нет изображений
+        </div>
+      )}
+    </>
   );
 }

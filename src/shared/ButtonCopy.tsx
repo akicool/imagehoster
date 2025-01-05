@@ -3,12 +3,12 @@ import { CopyIcon } from "lucide-react";
 import React from "react";
 import { toast } from "react-toastify";
 
-type Props = { params: { id: string } };
+type Props = { params: { unique_id: string } };
 
 export const ButtonCopy = ({ params }: Props) => {
   const handleCopyImageUrl = () => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/image/${params.id}`
+      `${window.location.origin}/image/${params.unique_id}`
     );
 
     toast.success("Ссылка на изображение скопирована!");

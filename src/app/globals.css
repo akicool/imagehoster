@@ -34,7 +34,7 @@ input[type="checkbox"].ios8-switch + label:before {
   position: absolute;
   display: block;
   left: 0;
-  top: 8px;
+  top: 4px;
   width: 40px; /* x*5 */
   height: 24px; /* x*3 */
   border-radius: 16px; /* x*2 */
@@ -48,7 +48,7 @@ input[type="checkbox"].ios8-switch + label:after {
   position: absolute;
   display: block;
   left: 0px;
-  top: 8px;
+  top: 4px;
   width: 24px; /* x*3 */
   height: 24px; /* x*3 */
   border-radius: 16px; /* x*2 */

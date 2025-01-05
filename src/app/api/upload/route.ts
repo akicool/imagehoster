@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { randomUUID } from "crypto";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
       filename: filename,
       uploaded_at: new Date().toISOString(),
       is_private: isPrivate,
+      unique_id: randomUUID(),
     })
     .select();
 
@@ -50,7 +52,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: metaError.message });
   }
 
-  const viewUrl = `/image/${metaData[0].id}`;
+  //   const viewUrl = `/image/${metaData[0].id}`;
+  const viewUrl = `/image/${randomUUID()}`;
 
   return NextResponse.json({
     success: true,

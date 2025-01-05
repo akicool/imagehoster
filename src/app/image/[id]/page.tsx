@@ -7,11 +7,11 @@ import { ButtonCopy } from "@/shared/ButtonCopy";
 
 export const revalidate = 0; // Отключаем кэширование для этой страницы
 
-async function getImageData(id: string) {
+async function getImageData(unique_id: string) {
   const { data, error } = await supabase
     .from("image_metadata")
     .select("*")
-    .eq("id", id)
+    .eq("unique_id", unique_id)
     .single();
 
   if (error) {
@@ -26,8 +26,9 @@ type Props = {
 };
 
 export default async function ImagePage({ params }: Props) {
-  const { id } = await params;
-  const imageData = await getImageData(id);
+  const { id: unique_id } = await params;
+
+  const imageData = await getImageData(unique_id);
 
   if (!imageData) {
     notFound();
@@ -49,7 +50,7 @@ export default async function ImagePage({ params }: Props) {
       <div className="bg-gray-700 shadow-lg rounded-lg overflow-hidden">
         <div className="relative aspect-video">
           <div className="absolute top-2 right-2 z-10 active:pt-1">
-            <ButtonCopy params={{ id: imageData.id }} />
+            <ButtonCopy params={{ unique_id: imageData.unique_id }} />
           </div>
 
           <Image
