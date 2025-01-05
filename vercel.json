@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cleanup?secret=YOUR_CRON_SECRET",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
