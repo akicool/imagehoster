@@ -29,6 +29,7 @@ export function ImageUploader() {
       });
 
       const data = await response.json();
+
       if (data.success) {
         toast.success("Успешно загружено");
         setFile(null);
@@ -119,6 +120,7 @@ export function ImageUploader() {
           <p className="text-sm text-gray-600 mb-2">
             Ссылка для просмотра изображения:
           </p>
+
           <Link
             href={viewUrl}
             className="text-blue-500 hover:underline break-all inline-block px-4 py-2 bg-blue-100 rounded-md"

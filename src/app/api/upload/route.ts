@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
   }
 
   //   const viewUrl = `/image/${metaData[0].id}`;
-  const viewUrl = `/image/${randomUUID()}`;
+  const viewUrl = `/image/${metaData[0].unique_id}`;
 
   return NextResponse.json({
     success: true,
