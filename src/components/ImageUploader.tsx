@@ -87,6 +87,7 @@ export function ImageUploader() {
             className={clsx("relative max-w-52 w-full", info || "active:pt-2")}
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               setInfo(!info);
             }}
           >
