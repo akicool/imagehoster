@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, UploadIcon } from "lucide-react";
 import clsx from "clsx";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
 
 export function ImageUploader() {
-  const [file, setFile] = useState<File | null>(null);
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+  const [files, setFiles] = useState<Array<File> | null>([]);
   const [uploading, setUploading] = useState(false);
   const [viewUrl, setViewUrl] = useState<string | null>(null);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -15,12 +24,13 @@ export function ImageUploader() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file) return;
+    if (!acceptedFiles || acceptedFiles.length === 0) return;
 
     setUploading(true);
     const formData = new FormData();
-    formData.append("file", file);
+    acceptedFiles.map((file) => formData.append("files", file));
     formData.append("isPrivate", isPrivate.toString());
+    console.log({ formData });
 
     try {
       const response = await fetch("/api/upload", {
@@ -29,10 +39,12 @@ export function ImageUploader() {
       });
 
       const data = await response.json();
+      console.log({ data });
+      
 
       if (data.success) {
         toast.success("Успешно загружено");
-        setFile(null);
+        setFiles([]);
         setViewUrl(data.viewUrl);
       } else {
         throw new Error(data.error || "Ошибка при загрузке");
@@ -45,10 +57,68 @@ export function ImageUploader() {
     }
   };
 
+  console.log({ acceptedFiles, files });
+
   return (
     <div className="space-y-4" onClick={() => setInfo(false)}>
+      <section className="">
+        <div
+          {...getRootProps({
+            className: clsx(
+              "dropzone cursor-pointer py-20",
+              "border-2 border-dashed border-gray-300",
+              "p-4 rounded-lg",
+              "hover:border-blue-500 hover:bg-[#F8F8F8]",
+              "focus:outline-none focus:border-blue-500",
+              "transition duration-300 ease-in-out",
+              inter.variable
+            ),
+          })}
+        >
+          <input
+            {...getInputProps()}
+            accept="image/*"
+            // onChange={
+            //   (e) =>
+            //     setFiles((prevFiles) => [
+            //       ...(prevFiles ?? []),
+            //       ...Array.from(e?.target?.files ?? []).filter(
+            //         (file) =>
+            //           !prevFiles?.some(
+            //             (prevFile) => prevFile.name === file.name
+            //           )
+            //       ),
+            //     ])
+            // }
+            multiple
+          />
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="bg-[#F8F8F8] p-4 rounded-lg">
+              <UploadIcon />
+            </div>
+
+            <p className="text-center text-black font-semibold text-sm">
+              Загрузите / перенесите файл
+            </p>
+
+            <span className="text-[#4F4D55] text-xs">
+              png, jpg, jpeg, gif, bmp, ico, tiff, webp
+            </span>
+          </div>
+        </div>
+        <aside className="mt-4">
+          <h4 className="text-lg font-medium">Загруженные файлы</h4>
+          <ul className="list-disc pl-5">
+            {acceptedFiles?.map((file) => (
+              <li key={file.name}>{file.name}</li>
+            ))}
+          </ul>
+        </aside>
+      </section>
+
       <form onSubmit={handleSubmit} className="space-y-4">
-        <label
+        {/* <label
           htmlFor="file"
           className="w-full text-sm text-slate-500
             flex items-center justify-center
@@ -65,7 +135,7 @@ export function ImageUploader() {
             onChange={(e) => setFile(e.target.files?.[0] || null)}
             className="hidden"
           />
-        </label>
+        </label> */}
 
         <div className="flex items-center space-x-2">
           <input
@@ -107,7 +177,7 @@ export function ImageUploader() {
 
         <button
           type="submit"
-          disabled={!file || uploading}
+          disabled={!acceptedFiles?.length || uploading}
           className="w-full text-white bg-violet-500 px-4 py-2 rounded-full
                      hover:bg-violet-600 focus:outline-none focus:ring-2
                      focus:ring-violet-400 disabled:bg-violet-900 cursor-pointer"
