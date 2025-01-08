@@ -42,12 +42,13 @@ export default async function ImagePage({ params }: Props) {
     <div className="container mx-auto py-8 px-4">
       <div className="flex items-center gap-3 mb-6">
         <Link href="/">
-          <ArrowLeft />
+          <ArrowLeft color="#000" />
         </Link>
-        <h1 className="text-3xl font-bold">Просмотр изображения</h1>
+
+        <h1 className="text-3xl font-bold text-black">Просмотр изображения</h1>
       </div>
 
-      <div className="bg-gray-700 shadow-lg rounded-lg overflow-hidden">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="relative aspect-video">
           <div className="absolute top-2 right-2 z-10 active:pt-1">
             <ButtonCopy params={{ unique_id: imageData.unique_id }} />
@@ -63,19 +64,19 @@ export default async function ImagePage({ params }: Props) {
           />
         </div>
 
-        <div className="p-6 text-white">
+        <div className="p-6 text-black">
           <h2 className="text-xl font-semibold mb-2">Детали изображения</h2>
 
-          <p className=" mb-1">
+          <p className="mb-1">
             <span className="font-medium">Имя файла:</span> {imageData.filename}
           </p>
 
-          <p className=" mb-1">
+          <p className="mb-1">
             <span className="font-medium">Загружено:</span>{" "}
             {new Date(imageData.uploaded_at).toLocaleString()}
           </p>
 
-          <p className=" mb-1">
+          <p className="mb-1">
             <span className="font-medium">ID:</span> {imageData.id}
           </p>
 
