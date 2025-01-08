@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import clsx from "clsx";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { ArrowLeft } from "lucide-react";
@@ -40,7 +41,7 @@ export default async function ImagePage({ params }: Props) {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-4">
         <Link href="/">
           <ArrowLeft color="#000" />
         </Link>
@@ -50,8 +51,29 @@ export default async function ImagePage({ params }: Props) {
 
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="relative aspect-video">
-          <div className="absolute top-2 right-2 z-10 active:pt-1">
-            <ButtonCopy params={{ unique_id: imageData.unique_id }} />
+          <div
+            className="absolute inset-0 bg-white scale-105 filter blur-md"
+            style={{
+              backgroundImage: `url(${publicUrlData.publicUrl})`,
+              backgroundSize: "cover",
+            }}
+          />
+
+          <div
+            className={clsx(
+              "flex w-full p-3 items-start z-10 relative",
+              imageData?.is_private ? "justify-between" : "justify-end"
+            )}
+          >
+            {imageData?.is_private && (
+              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium filter backdrop-blur-md bg-opacity-20">
+                Private
+              </span>
+            )}
+
+            <div className="active:pt-1">
+              <ButtonCopy params={{ unique_id: imageData.unique_id }} />
+            </div>
           </div>
 
           <Image
@@ -64,7 +86,7 @@ export default async function ImagePage({ params }: Props) {
           />
         </div>
 
-        <div className="p-6 text-black">
+        <div className="p-6 text-black relative z-10 mt-3">
           <h2 className="text-xl font-semibold mb-2">Детали изображения</h2>
 
           <p className="mb-1">

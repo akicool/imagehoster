@@ -75,12 +75,19 @@ const FileList = memo(
 
 FileList.displayName = "FileList";
 
+type TypeDataResult = {
+  success: boolean;
+  filename: string;
+  publicUrl: string;
+  viewUrl: string;
+};
+
 export function ImageUploader() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
   const [files, setFiles] = useState<FileWithPath[] | File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [viewUrl, setViewUrl] = useState<string | null>(null);
+  const [dataResults, setDataResults] = useState<TypeDataResult[]>([]);
   const [isPrivate, setIsPrivate] = useState(false);
   const [info, setInfo] = useState(false);
 
@@ -110,7 +117,7 @@ export function ImageUploader() {
       if (data.success) {
         toast.success("Успешно загружено");
         setFiles([]);
-        setViewUrl(data.viewUrl);
+        setDataResults(data.results);
       } else {
         throw new Error(data.error || "Ошибка при загрузке");
       }
@@ -237,20 +244,24 @@ export function ImageUploader() {
         </div>
       </form>
 
-      {viewUrl && (
-        <div className="mt-4">
+      {dataResults?.length ? (
+        <div className="flex flex-col gap-2 mt-4">
           <p className="text-sm text-gray-600 mb-2">
             Ссылка для просмотра изображения:
           </p>
 
-          <Link
-            href={viewUrl}
-            className="text-blue-500 hover:underline break-all inline-block px-4 py-2 bg-blue-100 rounded-md"
-          >
-            Просмотреть загруженное изображение
-          </Link>
+          {dataResults.map((result, idx) => (
+            <Link
+              key={idx}
+              href={result?.viewUrl}
+              target="_blank"
+              className="text-blue-500 hover:underline break-all inline-block px-4 py-2 bg-blue-100 rounded-md"
+            >
+              Просмотреть загруженное изображение {result?.filename || idx + 1}
+            </Link>
+          ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

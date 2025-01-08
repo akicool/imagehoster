@@ -5,10 +5,12 @@ import { Pagination } from "./Paginaton";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { ButtonRemove } from "@/shared/ButtonRemove";
+import clsx from "clsx";
 
 const IMAGES_PER_PAGE = 12;
 
-async function getImages(page: number) {
+//TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
+async function getPublicImages(page: number) {
   const { data, error, count } = await supabase
     .from("image_metadata")
     .select("*", { count: "exact" })
@@ -26,10 +28,27 @@ async function getImages(page: number) {
   return { images: data || [], totalPages };
 }
 
+//TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
+async function getAllImages(page: number) {
+  const { data, error, count } = await supabase
+    .from("image_metadata")
+    .select("*", { count: "exact" })
+    .order("uploaded_at", { ascending: false })
+    .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
+
+  if (error) {
+    console.error("Error fetching images:", error);
+    return { images: [], totalPages: 0 };
+  }
+
+  const totalPages = Math.ceil((count || 0) / IMAGES_PER_PAGE);
+
+  return { images: data || [], totalPages };
+}
+
 type TypePayload = { role?: string | JwtPayload } | void;
 
 export async function ImageGallery({ page }: { page: number }) {
-  const { images, totalPages } = await getImages(page);
   const cookieStore = await cookies();
   const token = cookieStore?.get("admin")?.value;
 
@@ -42,6 +61,12 @@ export async function ImageGallery({ page }: { page: number }) {
     ) as TypePayload;
   }
 
+  //TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
+  const { images, totalPages } =
+    payload?.role === "admin"
+      ? await getAllImages(page)
+      : await getPublicImages(page);
+
   return (
     <>
       {images.length ? (
@@ -52,28 +77,43 @@ export async function ImageGallery({ page }: { page: number }) {
               {images.map((image) => {
                 const { data } = supabase.storage
                   .from("images")
-                  .getPublicUrl(image.filename);
+                  .getPublicUrl(image?.filename);
 
                 return (
                   <Link
-                    href={`/image/${image.unique_id}`}
-                    key={image.unique_id || image.id}
+                    href={`/image/${image?.unique_id}`}
+                    key={image?.unique_id || image?.id}
                     className="block"
                   >
                     <div className="relative aspect-square">
                       {payload?.role === "admin" && (
-                        <ButtonRemove image={image} />
+                        <div
+                          className={clsx(
+                            "flex w-full relative z-10 p-2 items-start",
+                            image?.is_private
+                              ? "justify-between"
+                              : "justify-end"
+                          )}
+                        >
+                          {image?.is_private && (
+                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium filter backdrop-blur-md bg-opacity-20">
+                              Private
+                            </span>
+                          )}
+
+                          <ButtonRemove image={image} />
+                        </div>
                       )}
 
                       <Image
-                        src={data.publicUrl}
-                        alt={image.filename}
+                        src={data?.publicUrl}
+                        alt={image?.filename}
                         fill
                         className="object-cover rounded-lg"
                       />
 
-                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                        {new Date(image.uploaded_at).toLocaleDateString()}
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg">
+                        {new Date(image?.uploaded_at).toLocaleDateString()}
                       </div>
                     </div>
                   </Link>

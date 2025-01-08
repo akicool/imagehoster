@@ -26,7 +26,8 @@ export async function POST(request: NextRequest) {
       .replace(/ /g, "-")
       .replace(/[^a-zA-Z0-9_.-]/g, "");
 
-    const filename = Date.now() + validateFilename;
+    // const filename = Date.now() + validateFilename;
+    const filename = validateFilename;
 
     // eslint-disable-next-line
     const { data: uploadData, error } = await supabase.storage

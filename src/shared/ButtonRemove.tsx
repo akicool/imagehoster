@@ -51,7 +51,7 @@ export const ButtonRemove = ({ image }: Props) => {
 
         handleImageRemove(image);
       }}
-      className="absolute top-2 right-2 text-white p-2 rounded z-10"
+      className="text-white p-2 rounded z-10"
       style={{ backgroundColor: "red" }}
     >
       <TrashIcon size={16} />
