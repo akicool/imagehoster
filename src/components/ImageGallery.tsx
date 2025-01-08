@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Pagination } from "./Paginaton";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { ButtonRemove } from "@/shared/ButtonRemove";
 
 const IMAGES_PER_PAGE = 12;
 
@@ -23,8 +26,23 @@ async function getImages(page: number) {
   return { images: data || [], totalPages };
 }
 
+type TypePayload = { role?: string | JwtPayload } | void;
+
 export async function ImageGallery({ page }: { page: number }) {
   const { images, totalPages } = await getImages(page);
+  const cookieStore = await cookies();
+  const token = cookieStore?.get("admin")?.value;
+
+  let payload: TypePayload = {};
+
+  if (token?.length) {
+    payload = jwt.verify(
+      token,
+      process.env.NEXT_JWT_SECRET_KEY!
+    ) as TypePayload;
+  }
+
+  console.log("payload", payload);
 
   return (
     <>
@@ -45,12 +63,17 @@ export async function ImageGallery({ page }: { page: number }) {
                     className="block"
                   >
                     <div className="relative aspect-square">
+                      {payload?.role === "admin" && (
+                        <ButtonRemove image={image} />
+                      )}
+
                       <Image
                         src={data.publicUrl}
                         alt={image.filename}
                         fill
                         className="object-cover rounded-lg"
                       />
+
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
                         {new Date(image.uploaded_at).toLocaleDateString()}
                       </div>
