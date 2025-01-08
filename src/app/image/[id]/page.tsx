@@ -37,7 +37,7 @@ export default async function ImagePage({ params }: Props) {
 
   const { data: publicUrlData } = supabase.storage
     .from("images")
-    .getPublicUrl(imageData.filename);
+    .getPublicUrl(imageData?.filename);
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -54,7 +54,7 @@ export default async function ImagePage({ params }: Props) {
           <div
             className="absolute inset-0 bg-white scale-105 filter blur-md"
             style={{
-              backgroundImage: `url(${publicUrlData.publicUrl})`,
+              backgroundImage: `url(${publicUrlData?.publicUrl})`,
               backgroundSize: "cover",
             }}
           />
@@ -77,8 +77,8 @@ export default async function ImagePage({ params }: Props) {
           </div>
 
           <Image
-            src={publicUrlData.publicUrl}
-            alt={`Изображение ${imageData.filename}`}
+            src={publicUrlData?.publicUrl}
+            alt={`Изображение ${imageData?.filename}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain"
@@ -90,21 +90,22 @@ export default async function ImagePage({ params }: Props) {
           <h2 className="text-xl font-semibold mb-2">Детали изображения</h2>
 
           <p className="mb-1">
-            <span className="font-medium">Имя файла:</span> {imageData.filename}
+            <span className="font-medium">Имя файла:</span>
+            {imageData?.filename}
           </p>
 
           <p className="mb-1">
-            <span className="font-medium">Загружено:</span>{" "}
+            <span className="font-medium">Загружено:</span>
             {new Date(imageData.uploaded_at).toLocaleString()}
           </p>
 
           <p className="mb-1">
-            <span className="font-medium">ID:</span> {imageData.id}
+            <span className="font-medium">ID:</span> {imageData?.id}
           </p>
 
           <p className="">
-            <span className="font-medium">Тип:</span>{" "}
-            {imageData.is_private ? "Приватное" : "Публичное"}
+            <span className="font-medium">Тип:</span>
+            {imageData?.is_private ? "Приватное" : "Публичное"}
           </p>
         </div>
       </div>
