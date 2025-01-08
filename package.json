@@ -23,6 +23,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.5",
+    "react-tiny-popover": "^8.1.4",
     "react-toastify": "^11.0.2"
   },
   "devDependencies": {
