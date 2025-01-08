@@ -98,7 +98,6 @@ export function ImageUploader() {
     const formData = new FormData();
     files.map((file) => formData.append("files", file));
     formData.append("isPrivate", isPrivate.toString());
-    console.log({ formData });
 
     try {
       const response = await fetch("/api/upload", {
@@ -107,7 +106,6 @@ export function ImageUploader() {
       });
 
       const data = await response.json();
-      console.log({ data });
 
       if (data.success) {
         toast.success("Успешно загружено");
@@ -136,8 +134,6 @@ export function ImageUploader() {
       setFiles(acceptedFiles as FileWithPath[]);
     }
   }, [acceptedFiles]);
-
-  console.log({ acceptedFiles, files });
 
   return (
     <div className="space-y-4" onClick={() => setInfo(false)}>

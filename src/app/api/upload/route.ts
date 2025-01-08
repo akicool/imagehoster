@@ -7,8 +7,6 @@ export async function POST(request: NextRequest) {
   const files = Array.from(data.getAll("files")) as File[];
   const isPrivate = data.get("isPrivate") === "true";
 
-  console.log({ data, files, isPrivate });
-
   if (!files || !files.length) {
     return NextResponse.json({ success: false, error: "Вы не выбрали файл" });
   }

@@ -11,7 +11,6 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   });
 
   const data = await response.json();
-  console.log({ data });
 
   if (response.ok) {
     window.location.href = "/admin";

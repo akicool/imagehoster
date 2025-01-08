@@ -42,8 +42,6 @@ export async function ImageGallery({ page }: { page: number }) {
     ) as TypePayload;
   }
 
-  console.log("payload", payload);
-
   return (
     <>
       {images.length ? (

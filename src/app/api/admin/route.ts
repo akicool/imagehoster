@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   const data = await request.formData();
-  console.log(data);
   const login = data.get("login") as string;
   const password = data.get("password") as string;
 
