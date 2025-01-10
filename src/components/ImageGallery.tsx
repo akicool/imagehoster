@@ -6,6 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { ButtonRemove } from "@/shared/ButtonRemove";
 import clsx from "clsx";
+import dayjs from "dayjs";
 
 const IMAGES_PER_PAGE = 12;
 
@@ -112,8 +113,12 @@ export async function ImageGallery({ page }: { page: number }) {
                         className="object-cover rounded-lg"
                       />
 
-                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg">
-                        {new Date(image?.uploaded_at).toLocaleDateString()}
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg flex justify-between">
+                        <span>
+                          {dayjs(image?.uploaded_at).format("DD.MM.YYYY")}
+                        </span>
+
+                        <span>{dayjs(image?.uploaded_at).format("HH:mm")}</span>
                       </div>
                     </div>
                   </Link>

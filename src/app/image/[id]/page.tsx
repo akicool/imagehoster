@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import clsx from "clsx";
 import { notFound } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 import { ArrowLeft } from "lucide-react";
+import clsx from "clsx";
+import dayjs from "dayjs";
+
+import { supabase } from "@/lib/supabase";
 import { ButtonCopy } from "@/shared/ButtonCopy";
 
 export const revalidate = 0; // Отключаем кэширование для этой страницы
@@ -90,21 +92,22 @@ export default async function ImagePage({ params }: Props) {
           <h2 className="text-xl font-semibold mb-2">Детали изображения</h2>
 
           <p className="mb-1">
-            <span className="font-medium">Имя файла:</span>
+            <span className="font-medium">Имя файла: </span>
             {imageData?.filename}
           </p>
 
           <p className="mb-1">
-            <span className="font-medium">Загружено:</span>
-            {new Date(imageData.uploaded_at).toLocaleString()}
+            <span className="font-medium">Загружено: </span>
+            <span>{dayjs(imageData?.uploaded_at).format("DD.MM.YYYY")} </span>в
+            <span> {dayjs(imageData?.uploaded_at).format("HH:mm")}</span>
           </p>
 
           <p className="mb-1">
-            <span className="font-medium">ID:</span> {imageData?.id}
+            <span className="font-medium">ID: </span> {imageData?.id}
           </p>
 
           <p className="">
-            <span className="font-medium">Тип:</span>
+            <span className="font-medium">Тип: </span>
             {imageData?.is_private ? "Приватное" : "Публичное"}
           </p>
         </div>
