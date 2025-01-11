@@ -93,6 +93,11 @@ export async function ImageGallery({ page }: { page: number }) {
                   .from("images")
                   .getPublicUrl(image?.filename);
 
+                console.log({
+                  created_at: image?.created_at,
+                  uploaded_at: image?.uploaded_at,
+                });
+
                 return (
                   <Link
                     href={`/image/${image?.unique_id}`}
