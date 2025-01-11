@@ -19,14 +19,20 @@ async function getPublicImages(page: number) {
     .order("uploaded_at", { ascending: false })
     .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
 
+  const { data: allImages } = await supabase
+    .from("image_metadata")
+    .select("*", { count: "exact" })
+    .eq("is_private", false)
+    .order("uploaded_at", { ascending: false });
+
   if (error) {
     console.error("Error fetching images:", error);
-    return { images: [], totalPages: 0 };
+    return { images: [], totalPages: 0, allImages: [] };
   }
 
   const totalPages = Math.ceil((count || 0) / IMAGES_PER_PAGE);
 
-  return { images: data || [], totalPages };
+  return { images: data || [], totalPages, allImages };
 }
 
 //TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
@@ -37,14 +43,19 @@ async function getAllImages(page: number) {
     .order("uploaded_at", { ascending: false })
     .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
 
+  const { data: allImages } = await supabase
+    .from("image_metadata")
+    .select("*", { count: "exact" })
+    .order("uploaded_at", { ascending: false });
+
   if (error) {
     console.error("Error fetching images:", error);
-    return { images: [], totalPages: 0 };
+    return { images: [], totalPages: 0, allImages: [] };
   }
 
   const totalPages = Math.ceil((count || 0) / IMAGES_PER_PAGE);
 
-  return { images: data || [], totalPages };
+  return { images: data || [], totalPages, allImages };
 }
 
 type TypePayload = { role?: string | JwtPayload } | void;
@@ -63,7 +74,7 @@ export async function ImageGallery({ page }: { page: number }) {
   }
 
   //TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
-  const { images, totalPages } =
+  const { images, totalPages, allImages } =
     payload?.role === "admin"
       ? await getAllImages(page)
       : await getPublicImages(page);
@@ -72,7 +83,9 @@ export async function ImageGallery({ page }: { page: number }) {
     <>
       {images.length ? (
         <div>
-          <h2 className="text-2xl font-semibold">Галерея изображений</h2>
+          <h2 className="text-2xl font-semibold">
+            Галерея изображений ({allImages?.length || 0} шт)
+          </h2>
           <div className="space-y-6 py-4">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {images.map((image) => {
@@ -115,10 +128,16 @@ export async function ImageGallery({ page }: { page: number }) {
 
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg flex justify-between">
                         <span>
-                          {dayjs(image?.created_at).format("DD.MM.YYYY")}
+                          {dayjs(image?.created_at)
+                            .locale("ru")
+                            .format("DD.MM.YYYY")}
                         </span>
 
-                        <span>{dayjs(image?.created_at).format("HH:mm")}</span>
+                        <span>
+                          {dayjs(image?.created_at)
+                            .locale("ru")
+                            .format("HH:mm")}
+                        </span>
                       </div>
                     </div>
                   </Link>

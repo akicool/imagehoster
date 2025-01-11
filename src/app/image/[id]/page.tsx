@@ -98,8 +98,13 @@ export default async function ImagePage({ params }: Props) {
 
           <p className="mb-1">
             <span className="font-medium">Загружено: </span>
-            <span>{dayjs(imageData?.created_at).format("DD.MM.YYYY")} </span>в
-            <span> {dayjs(imageData?.created_at).format("HH:mm")}</span>
+            <span>
+              {dayjs(imageData?.created_at).locale("ru").format("DD.MM.YYYY")}
+            </span>
+            в
+            <span>
+              {dayjs(imageData?.created_at).locale("ru").format("HH:mm")}
+            </span>
           </p>
 
           <p className="mb-1">
