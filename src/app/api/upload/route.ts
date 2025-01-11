@@ -22,11 +22,12 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const validateFilename = file.name
-      .replace(/ /g, "-")
-      .replace(/[^a-zA-Z0-9_.-]/g, "");
+    // const validateFilename = file.name
+    //   .replace(/ /g, "-")
+    //   .replace(/[^a-zA-Z0-9_.-]/g, "");
 
-    // const filename = Date.now() + validateFilename;
+    const validateFilename = file.name.replace(/\s/g, "_");
+
     const filename = validateFilename;
 
     // eslint-disable-next-line
