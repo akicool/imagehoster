@@ -128,15 +128,15 @@ export async function ImageGallery({ page }: { page: number }) {
 
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg flex justify-between">
                         <span>
-                          {DateTime.fromISO(image?.created_at)?.toFormat(
-                            "dd.MM.yyyy"
-                          )}
+                          {DateTime.fromISO(image?.created_at)
+                            .setZone("Europe/Moscow")
+                            .toFormat("dd.MM.yyyy")}
                         </span>
 
                         <span>
-                          {DateTime.fromISO(image?.created_at)?.toFormat(
-                            "HH:mm"
-                          )}
+                          {DateTime.fromISO(image?.created_at)
+                            .setZone("Europe/Moscow")
+                            .toFormat("HH:mm")}
                         </span>
                       </div>
                     </div>

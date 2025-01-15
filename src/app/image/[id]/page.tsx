@@ -99,11 +99,15 @@ export default async function ImagePage({ params }: Props) {
           <p className="mb-1">
             <span className="font-medium">Загружено: </span>
             <span>
-              {DateTime.fromISO(imageData?.created_at)?.toFormat("dd.MM.yyyy")}
+              {DateTime.fromISO(imageData?.created_at)
+                .setZone("Europe/Moscow")
+                .toFormat("dd.MM.yyyy")}
             </span>{" "}
             в{" "}
             <span>
-              {DateTime.fromISO(imageData?.created_at).toFormat("HH:mm")}
+              {DateTime.fromISO(imageData?.created_at)
+                .setZone("Europe/Moscow")
+                .toFormat("HH:mm")}
             </span>
           </p>
 
