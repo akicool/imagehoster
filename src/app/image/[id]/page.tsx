@@ -3,10 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import clsx from "clsx";
-import dayjs from "dayjs";
 
 import { supabase } from "@/lib/supabase";
 import { ButtonCopy } from "@/shared/ButtonCopy";
+import { DateTime } from "luxon";
 
 export const revalidate = 0; // Отключаем кэширование для этой страницы
 
@@ -99,11 +99,11 @@ export default async function ImagePage({ params }: Props) {
           <p className="mb-1">
             <span className="font-medium">Загружено: </span>
             <span>
-              {dayjs(imageData?.created_at).locale("ru").format("DD.MM.YYYY")}
-            </span>
-            в
+              {DateTime.fromISO(imageData?.created_at)?.toFormat("dd.MM.yyyy")}
+            </span>{" "}
+            в{" "}
             <span>
-              {dayjs(imageData?.created_at).locale("ru").format("HH:mm")}
+              {DateTime.fromISO(imageData?.created_at).toFormat("HH:mm")}
             </span>
           </p>
 

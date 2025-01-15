@@ -6,7 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { ButtonRemove } from "@/shared/ButtonRemove";
 import clsx from "clsx";
-import dayjs from "dayjs";
+import { DateTime } from "luxon";
 
 const IMAGES_PER_PAGE = 12;
 
@@ -93,11 +93,6 @@ export async function ImageGallery({ page }: { page: number }) {
                   .from("images")
                   .getPublicUrl(image?.filename);
 
-                console.log({
-                  created_at: image?.created_at,
-                  uploaded_at: image?.uploaded_at,
-                });
-
                 return (
                   <Link
                     href={`/image/${image?.unique_id}`}
@@ -133,15 +128,15 @@ export async function ImageGallery({ page }: { page: number }) {
 
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg flex justify-between">
                         <span>
-                          {dayjs(image?.created_at)
-                            .locale("ru")
-                            .format("DD.MM.YYYY")}
+                          {DateTime.fromISO(image?.created_at)?.toFormat(
+                            "dd.MM.yyyy"
+                          )}
                         </span>
 
                         <span>
-                          {dayjs(image?.created_at)
-                            .locale("ru")
-                            .format("HH:mm")}
+                          {DateTime.fromISO(image?.created_at)?.toFormat(
+                            "HH:mm"
+                          )}
                         </span>
                       </div>
                     </div>
