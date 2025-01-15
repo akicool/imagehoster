@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Image Hoster",
+  title: "Image Hoster - Загрузить Фото — Хостинг Картинок",
   description:
     "Бесплатный хостинг изображений. Загрузите ваши файлы и получите ссылку на них. Хранение файлов в хранилище.",
 };
