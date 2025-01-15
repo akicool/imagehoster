@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Image Hoster",
-  description: "Хостинг изображений",
+  description:
+    "Бесплатный хостинг изображений. Загрузите ваши файлы и получите ссылку на них. Хранение файлов в хранилище.",
 };
 
 export default function RootLayout({
@@ -26,6 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34="
+        />
+        <meta name="robots" content="noindex,nofollow" />
+        <meta name="googlebot" content="notranslate" />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#F7F7F7]`}
       >
