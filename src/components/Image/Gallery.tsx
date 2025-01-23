@@ -1,68 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import { Pagination } from "./Paginaton";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { cookies } from "next/headers";
-import { ButtonRemove } from "@/shared/ButtonRemove";
 import clsx from "clsx";
 import { DateTime } from "luxon";
-
-const IMAGES_PER_PAGE = 12;
-
-//TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
-async function getPublicImages(page: number) {
-  const { data, error, count } = await supabase
-    .from("image_metadata")
-    .select("*", { count: "exact" })
-    .eq("is_private", false)
-    .order("uploaded_at", { ascending: false })
-    .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
-
-  const { data: allImages } = await supabase
-    .from("image_metadata")
-    .select("*", { count: "exact" })
-    .eq("is_private", false)
-    .order("uploaded_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching images:", error);
-    return { images: [], totalPages: 0, allImages: [] };
-  }
-
-  const totalPages = Math.ceil((count || 0) / IMAGES_PER_PAGE);
-
-  return { images: data || [], totalPages, allImages };
-}
-
-//TODO: BOTH OF THESE FUNCTIONS SHOULD BE REDESIGNED INTO ONE. !
-async function getAllImages(page: number) {
-  const { data, error, count } = await supabase
-    .from("image_metadata")
-    .select("*", { count: "exact" })
-    .order("uploaded_at", { ascending: false })
-    .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
-
-  const { data: allImages } = await supabase
-    .from("image_metadata")
-    .select("*", { count: "exact" })
-    .order("uploaded_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching images:", error);
-    return { images: [], totalPages: 0, allImages: [] };
-  }
-
-  const totalPages = Math.ceil((count || 0) / IMAGES_PER_PAGE);
-
-  return { images: data || [], totalPages, allImages };
-}
+import { supabase } from "@/lib/supabase";
+import { Pagination } from "../Pagination";
+import { ButtonRemove } from "@/shared/Buttons/Remove";
+import { getToken } from "@/utils/getToken";
+import { getAllImages } from "@/utils/getAllImages";
+import { getPublicImages } from "@/utils/getPublicImages";
 
 type TypePayload = { role?: string | JwtPayload } | void;
 
 export async function ImageGallery({ page }: { page: number }) {
-  const cookieStore = await cookies();
-  const token = cookieStore?.get("admin")?.value;
+  const token = await getToken();
 
   let payload: TypePayload = {};
 
@@ -86,6 +37,7 @@ export async function ImageGallery({ page }: { page: number }) {
           <h2 className="text-2xl font-semibold">
             Галерея изображений ({allImages?.length || 0} шт)
           </h2>
+
           <div className="space-y-6 py-4">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {images.map((image) => {

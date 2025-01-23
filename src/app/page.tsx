@@ -1,5 +1,5 @@
-import { ImageUploader } from "../components/ImageUploader";
-import { ImageGallery } from "../components/ImageGallery";
+import { ImageUploader } from "../components/Image/Uploader";
+import { ImageGallery } from "../components/Image/Gallery";
 import { Rubik } from "next/font/google";
 import clsx from "clsx";
 
