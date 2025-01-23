@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import clsx from "clsx";
 
 import { supabase } from "@/lib/supabase";
-import { ButtonCopy } from "@/shared/ButtonCopy";
+import { ButtonCopy } from "@/shared/Buttons/Copy";
 import { DateTime } from "luxon";
 
 export const revalidate = 0; // Отключаем кэширование для этой страницы
