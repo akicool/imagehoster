@@ -2,7 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["localhost", "bnolkxefwhspjivjsugj.supabase.co"],
+    domains: [
+      "localhost",
+      "bnolkxefwhspjivjsugj.supabase.co",
+      "image.pollinations.ai",
+    ],
   },
 };
 
