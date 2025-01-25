@@ -27,7 +27,8 @@
     "react-dropzone": "^14.3.5",
     "react-paginate": "^8.2.0",
     "react-tiny-popover": "^8.1.4",
-    "react-toastify": "^11.0.2"
+    "react-toastify": "^11.0.2",
+    "spoiled": "^0.3.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
