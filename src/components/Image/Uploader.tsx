@@ -44,12 +44,12 @@ const FileList = memo(
             key={idx}
             className="mb-2 p-2 border-solid border-[#E6E6E6] border-2 rounded-md flex justify-between items-center"
           >
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center overflow-hidden">
               <FileIcon size={16} color="#ADACB0" />
 
               <p
                 className={clsx(
-                  "text-sm text-gray-600 font-medium",
+                  "text-sm text-gray-600 font-medium truncate w-1/2",
                   inter.variable
                 )}
               >
