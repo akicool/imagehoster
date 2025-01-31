@@ -56,12 +56,10 @@ export async function ImageGallery({ page }: { page: number }) {
                         <div
                           className={clsx(
                             "flex w-full relative z-10 p-2 items-start",
-                            image?.is_private
-                              ? "justify-between"
-                              : "justify-end"
+                            image?.is_public ? "justify-end" : "justify-between"
                           )}
                         >
-                          {image?.is_private && (
+                          {image?.is_public || (
                             <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium filter backdrop-blur-md bg-opacity-20">
                               Private
                             </span>

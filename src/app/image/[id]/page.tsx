@@ -64,10 +64,10 @@ export default async function ImagePage({ params }: Props) {
           <div
             className={clsx(
               "flex w-full p-3 items-start z-10 relative",
-              imageData?.is_private ? "justify-between" : "justify-end"
+              imageData?.is_public ? "justify-end" : "justify-between"
             )}
           >
-            {imageData?.is_private && (
+            {imageData?.is_public || (
               <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium filter backdrop-blur-md bg-opacity-20">
                 Private
               </span>
@@ -117,7 +117,7 @@ export default async function ImagePage({ params }: Props) {
 
           <p className="">
             <span className="font-medium">Тип: </span>
-            {imageData?.is_private ? "Приватное" : "Публичное"}
+            {imageData?.is_public ? "Публичное" : "Приватное"}
           </p>
         </div>
       </div>

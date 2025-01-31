@@ -88,7 +88,7 @@ export function ImageUploader() {
   const [files, setFiles] = useState<FileWithPath[] | File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [dataResults, setDataResults] = useState<TypeDataResult[]>([]);
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const [info, setInfo] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -104,7 +104,7 @@ export function ImageUploader() {
 
     const formData = new FormData();
     files.map((file) => formData.append("files", file));
-    formData.append("isPrivate", isPrivate.toString());
+    formData.append("isPublic", isPublic.toString());
 
     try {
       const response = await fetch("/api/upload", {
@@ -205,8 +205,8 @@ export function ImageUploader() {
           <input
             type="checkbox"
             id="private-mode"
-            checked={isPrivate}
-            onChange={(e) => setIsPrivate(e.target.checked)}
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
             className="ios8-switch appearance-none"
           />
 
@@ -214,7 +214,7 @@ export function ImageUploader() {
             htmlFor="private-mode"
             className="cursor-pointer text-nowrap !pt-0 w-full"
           >
-            Приватное изображение
+            Публичное изображение
           </label>
 
           <button
@@ -231,7 +231,7 @@ export function ImageUploader() {
               content={
                 <div className="w-full flex justify-center">
                   <div className="bg-gray-900 rounded p-2 w-3/4 text-balance text-center mb-2">
-                    Приватное изображение не будет отображаться в галерее
+                    Публичное изображение будет отображаться в галерее
                   </div>
                 </div>
               }

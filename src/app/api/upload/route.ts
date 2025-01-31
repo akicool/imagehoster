@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 export async function POST(request: NextRequest) {
   const data = await request.formData();
   const files = Array.from(data.getAll("files")) as File[];
-  const isPrivate = data.get("isPrivate") === "true";
+  const isPublic = data.get("isPublic") === "true";
 
   if (!files || !files.length) {
     return NextResponse.json({ success: false, error: "Вы не выбрали файл" });
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       .insert({
         filename: filename,
         uploaded_at: new Date().toISOString(),
-        is_private: isPrivate,
+        is_public: isPublic,
         unique_id: randomUUID(),
       })
       .select();

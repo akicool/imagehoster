@@ -5,14 +5,14 @@ export const getPublicImages = async (page: number) => {
   const { data, error, count } = await supabase
     .from("image_metadata")
     .select("*", { count: "exact" })
-    .eq("is_private", false)
+    .eq("is_public", true)
     .order("uploaded_at", { ascending: false })
     .range((page - 1) * IMAGES_PER_PAGE, page * IMAGES_PER_PAGE - 1);
 
   const { data: allImages } = await supabase
     .from("image_metadata")
     .select("*", { count: "exact" })
-    .eq("is_private", false)
+    .eq("is_public", true)
     .order("uploaded_at", { ascending: false });
 
   if (error) {
