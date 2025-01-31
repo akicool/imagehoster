@@ -26,10 +26,12 @@ export async function POST(request: NextRequest) {
     //   .replace(/ /g, "-")
     //   .replace(/[^a-zA-Z0-9_.-]/g, "");
 
-    const validateFilename =
-      file.name.trim() === ""
-        ? `empty-name${randomUUID().slice(0, 6)}`
-        : file.name.replace(/\s/g, "_");
+    // const validateFilename =
+    //   file.name.trim() === ""
+    //     ? `empty-name${randomUUID().slice(0, 6)}`
+    //     : file.name.replace(/\s/g, "_");
+
+    const validateFilename = `image-${randomUUID().slice(0, 6)}`;
 
     const filename = validateFilename;
 
