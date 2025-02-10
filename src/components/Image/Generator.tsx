@@ -19,7 +19,9 @@ export default function ImageGenerator() {
     setImageUrl("");
 
     const uniqueId = String(Date.now()).slice(7, String(Date.now()).length);
-    const ModelAI = "flux-pro";
+    // const ModelAI = "flux-pro";
+    // const modelsAI = ["flux-pro", "deepseek", "midijourney"];
+    const ModelAI = "midijourney";
 
     try {
       const url = `https://image.pollinations.ai/prompt/${prompt}?seed=${uniqueId}&nologo=true&model=${ModelAI}&enhance=true`;
