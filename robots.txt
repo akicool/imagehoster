@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /settings/
+Disallow: /private/
+Disallow: /api/
+Disallow: /*?token=
+Disallow: /*.php$
+
+Sitemap: https://imagehoster.ru/sitemap.xml
