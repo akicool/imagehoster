@@ -32,7 +32,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34="
         />
-        <meta name="robots" content="noindex,nofollow" />
+        <meta name="robots" content="nofollow" />
         <meta name="googlebot" content="notranslate" />
       </head>
 
