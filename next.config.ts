@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       "localhost",
       "bnolkxefwhspjivjsugj.supabase.co",
       "image.pollinations.ai",
+      "yandex.ru"
     ],
   },
 };

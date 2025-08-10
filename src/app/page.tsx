@@ -2,6 +2,7 @@ import { ImageUploader } from "../components/Image/Uploader";
 import { ImageGallery } from "../components/Image/Gallery";
 import Link from "next/link";
 import { Logo } from "@/shared/Logo";
+import { Ads } from "@/lib/YandexAds";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -29,6 +30,8 @@ export default async function Home({ searchParams }: Props) {
       </div>
 
       <hr className="my-4 border-black" />
+
+      <Ads blockID="1" />
 
       <ImageGallery page={Number(page)} />
     </main>

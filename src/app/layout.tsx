@@ -34,6 +34,12 @@ export default function RootLayout({
         />
         <meta name="robots" content="nofollow" />
         <meta name="googlebot" content="notranslate" />
+
+        <script>window.yaContextCb=window.yaContextCb||[]</script>
+        <Script
+          src="https://yandex.ru/ads/system/context.js"
+          strategy="beforeInteractive"
+        ></Script>
       </head>
 
       <body
